@@ -1,22 +1,14 @@
-package com.a29340.shoppinglist.model;
+package com.a29340.shoppinglist.dto;
 
-import javax.persistence.Column;
+import com.a29340.shoppinglist.model.ShoppingElement;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
-public class ShoppingElement {
+public class ShoppingElementDTO {
 
-  @Id
-  @GeneratedValue
-  private String id;
-
-  @Column(unique = true)
   private String name;
-
   private String description;
-
   private Integer quantity;
 
   public String getName() {
@@ -41,5 +33,13 @@ public class ShoppingElement {
 
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
+  }
+
+  public static ShoppingElementDTO fromShoppingElement(ShoppingElement se) {
+    ShoppingElementDTO seDTO = new ShoppingElementDTO();
+    seDTO.setName(se.getName());
+    seDTO.setDescription(se.getDescription());
+    seDTO.setQuantity(se.getQuantity());
+    return seDTO;
   }
 }
