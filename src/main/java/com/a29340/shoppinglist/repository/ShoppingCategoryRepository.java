@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ShoppingCategoryRepository extends JpaRepository<ShoppingCategory, Long> {
-
+public interface ShoppingCategoryRepository extends ShoppingRepository<ShoppingCategory> {
 
 }

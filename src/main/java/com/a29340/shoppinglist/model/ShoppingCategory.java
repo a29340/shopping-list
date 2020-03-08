@@ -13,7 +13,7 @@ public class ShoppingCategory {
 
   @Id
   @GeneratedValue
-  private String id;
+  private Long id;
 
   @Column(unique = true)
   private String name;

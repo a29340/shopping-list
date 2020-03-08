@@ -52,7 +52,7 @@ public class ShoppingCategoryDTO {
     this.description = description;
   }
 
-  public static ShoppingCategoryDTO fromShoppingCategory(ShoppingCategory sc){
+  public static ShoppingCategoryDTO fromShoppingCategory(ShoppingCategory sc) {
     ShoppingCategoryDTO scDTO = new ShoppingCategoryDTO();
     scDTO.setName(sc.getName());
     scDTO.setDescription(sc.getDescription());
