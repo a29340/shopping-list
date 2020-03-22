@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,9 +20,13 @@ public class ShoppingCategory {
   private String name;
 
   private String description;
+
   @OneToMany
   private List<ShoppingElement> elementList;
 
+
+  @ManyToMany
+  private List<ShoppingCategory> subcategoryList;
 
   public List<ShoppingElement> getElementList() {
     return elementList;
@@ -38,9 +43,6 @@ public class ShoppingCategory {
   public void setSubcategoryList(List<ShoppingCategory> subcategoryList) {
     this.subcategoryList = subcategoryList;
   }
-
-  @OneToMany
-  private List<ShoppingCategory> subcategoryList;
 
   public String getName() {
     return name;

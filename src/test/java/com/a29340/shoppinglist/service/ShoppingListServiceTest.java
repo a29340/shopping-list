@@ -1,24 +1,20 @@
 package com.a29340.shoppinglist.service;
 
-import com.a29340.shoppinglist.dto.ShoppingCategoryDTO;
-import com.a29340.shoppinglist.dto.ShoppingElementDTO;
-import com.a29340.shoppinglist.dto.ShoppingListDTO;
-import com.a29340.shoppinglist.model.ShoppingList;
-import com.a29340.shoppinglist.repository.ShoppingRepository;
-
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.a29340.shoppinglist.dto.ShoppingCategoryDTO;
+import com.a29340.shoppinglist.dto.ShoppingElementDTO;
+import com.a29340.shoppinglist.dto.ShoppingListDTO;
+
+import javax.persistence.EntityManager;
 
 @SpringBootTest
 class ShoppingListServiceTest {
@@ -27,6 +23,7 @@ class ShoppingListServiceTest {
   ShoppingListService service;
 
   @Test
+  @Transactional
   void should_save_new_shopping_list() {
 
     ShoppingListDTO listDTO = new ShoppingListDTO();
@@ -46,6 +43,7 @@ class ShoppingListServiceTest {
   }
 
   @Test
+  @Transactional
   void should_save_new_shopping_list_with_null_values() {
     ShoppingListDTO listDTO = new ShoppingListDTO();
     listDTO.setName("TestList");
