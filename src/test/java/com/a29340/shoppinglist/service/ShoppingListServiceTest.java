@@ -1,11 +1,9 @@
 package com.a29340.shoppinglist.service;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
@@ -13,8 +11,6 @@ import java.util.Arrays;
 import com.a29340.shoppinglist.dto.ShoppingCategoryDTO;
 import com.a29340.shoppinglist.dto.ShoppingElementDTO;
 import com.a29340.shoppinglist.dto.ShoppingListDTO;
-
-import javax.persistence.EntityManager;
 
 @SpringBootTest
 class ShoppingListServiceTest {
