@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -16,7 +17,7 @@ public class ShoppingList {
   @GeneratedValue
   private Long id;
 
-  @OneToMany
+  @ManyToMany
   private List<ShoppingCategory> categoryList;
 
   @Column(unique = true)

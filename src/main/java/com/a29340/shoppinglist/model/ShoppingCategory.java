@@ -21,7 +21,7 @@ public class ShoppingCategory {
 
   private String description;
 
-  @OneToMany
+  @ManyToMany
   private List<ShoppingElement> elementList;
 
 

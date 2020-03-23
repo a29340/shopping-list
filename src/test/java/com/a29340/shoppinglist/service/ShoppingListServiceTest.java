@@ -35,7 +35,6 @@ class ShoppingListServiceTest {
     shoppingCategoryDTO.setElementList(Arrays.asList(shoppingElementDTO));
     listDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
     service.saveShoppingList(listDTO);
-
   }
 
   @Test
@@ -52,5 +51,29 @@ class ShoppingListServiceTest {
     shoppingCategoryDTO.setElementList(Arrays.asList(shoppingElementDTO));
     listDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
     service.saveShoppingList(listDTO);
+  }
+
+  @Test
+  @Transactional
+  void should_save_two_shopping_list_with_shared_items() {
+
+    ShoppingListDTO listDTO = new ShoppingListDTO();
+    listDTO.setName("TestList");
+    listDTO.setDescription("TestList description");
+    ShoppingCategoryDTO shoppingCategoryDTO = new ShoppingCategoryDTO();
+    shoppingCategoryDTO.setName("TestCategory");
+    shoppingCategoryDTO.setDescription("TestCategory description");
+    ShoppingElementDTO shoppingElementDTO = new ShoppingElementDTO();
+    shoppingElementDTO.setName("TestElement");
+    shoppingElementDTO.setDescription("TestElement description");
+    shoppingElementDTO.setQuantity(5);
+    shoppingCategoryDTO.setElementList(Arrays.asList(shoppingElementDTO));
+    listDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
+    service.saveShoppingList(listDTO);
+
+    ShoppingListDTO anotherListDTO = new ShoppingListDTO();
+    anotherListDTO.setName("TestList2");
+    anotherListDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
+    service.saveShoppingList(anotherListDTO);
   }
 }
