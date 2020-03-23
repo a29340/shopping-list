@@ -19,7 +19,7 @@ public class CorsConfiguration {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
         if(enableCORS) {
-          registry.addMapping("/api/shoppinglist").allowedOrigins("http://localhost:4200");
+          registry.addMapping("/api/shoppinglist").allowedOrigins("*");
         }
       }
     };
