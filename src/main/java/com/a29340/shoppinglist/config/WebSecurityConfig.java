@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Value("${devmode}")
+  @Value("${devMode}")
   Boolean devMode;
 
   @Override
@@ -28,16 +29,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     if (devMode) {
       http.cors().configurationSource(corsConfigurationSource())
           .and()
-          .authorizeRequests().anyRequest().permitAll();
+          .authorizeRequests()
+          .anyRequest()
+          .permitAll()
+          .and()
+          .csrf().disable();
     } else {
-      super.configure(http);
+      http.authorizeRequests()
+          .anyRequest()
+          .authenticated()
+          .and()
+          .formLogin()
+          .and()
+          .csrf()
+          .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
   }
 
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(Arrays.asList("*"));
-    configuration.setAllowedMethods(Arrays.asList("*"));
+    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
@@ -52,7 +64,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .password("password")
             .roles("USER")
             .build();
-
     return new InMemoryUserDetailsManager(user);
   }
 }
