@@ -85,4 +85,13 @@ public class ShoppingListService {
     return listRepository.findAll().stream().map(ShoppingListDTO::fromShoppingList)
         .collect(Collectors.toList());
   }
+
+  public ShoppingListDTO deleteShoppingList(ShoppingListDTO receivedShoppingList) {
+    ShoppingList listToDelete = listRepository.findByName(receivedShoppingList.getName());
+    if(listToDelete != null) {
+      listRepository.delete(listToDelete);
+      return receivedShoppingList;
+    }
+    return null;
+  }
 }

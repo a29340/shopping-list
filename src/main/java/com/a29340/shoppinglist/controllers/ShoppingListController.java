@@ -3,7 +3,9 @@ package com.a29340.shoppinglist.controllers;
 import com.a29340.shoppinglist.dto.ShoppingListDTO;
 import com.a29340.shoppinglist.service.ShoppingListService;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -23,5 +25,14 @@ public class ShoppingListController {
     @GetMapping
     public Collection<ShoppingListDTO> getAllShoppingLists() {
         return service.getAllShoppingLists();
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteShoppingList(@RequestBody ShoppingListDTO receivedShoppingList){
+        if(service.deleteShoppingList(receivedShoppingList) != null) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
