@@ -27,9 +27,18 @@ public class ShoppingListController {
         return service.getAllShoppingLists();
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteShoppingList(@RequestBody ShoppingListDTO receivedShoppingList){
-        if(service.deleteShoppingList(receivedShoppingList) != null) {
+    @DeleteMapping("/{listName}")
+    public ResponseEntity deleteShoppingList(@PathVariable String listName){
+        if(service.deleteShoppingList(listName)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{listName}/rename")
+    public ResponseEntity renameList(@PathVariable String listName, String newName) {
+        if(service.renameList(listName, newName)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();

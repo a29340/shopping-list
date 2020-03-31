@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       http.cors().configurationSource(corsConfigurationSource())
           .and()
           .authorizeRequests()
-          .antMatchers("/**")
+          .anyRequest()
           .permitAll()
           .and()
           .csrf().disable();
@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.applyPermitDefaultValues();
+    configuration.addAllowedMethod("DELETE");
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;

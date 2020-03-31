@@ -30,9 +30,9 @@ public class ShoppingListService {
   @Autowired
   ShoppingElementRepository elementRepository;
 
-  public ShoppingListDTO saveShoppingList(ShoppingListDTO shoppingListDTO){
+  public ShoppingListDTO saveShoppingList(ShoppingListDTO shoppingListDTO) {
     ShoppingList sl = listRepository.findByName(shoppingListDTO.getName());
-    if(sl!=null) {
+    if (sl != null) {
       sl.setDescription(shoppingListDTO.getDescription());
     } else {
       sl = new ShoppingList();
@@ -86,12 +86,22 @@ public class ShoppingListService {
         .collect(Collectors.toList());
   }
 
-  public ShoppingListDTO deleteShoppingList(ShoppingListDTO receivedShoppingList) {
-    ShoppingList listToDelete = listRepository.findByName(receivedShoppingList.getName());
-    if(listToDelete != null) {
+  public Boolean deleteShoppingList(String receivedShoppingList) {
+    ShoppingList listToDelete = listRepository.findByName(receivedShoppingList);
+    if (listToDelete != null) {
       listRepository.delete(listToDelete);
-      return receivedShoppingList;
+      return true;
     }
-    return null;
+    return false;
+  }
+
+  public boolean renameList(String listName, String newName) {
+    ShoppingList list = listRepository.findByName(listName);
+    if (list != null) {
+      list.setName(newName);
+      listRepository.save(list);
+      return true;
+    }
+    return false;
   }
 }

@@ -95,6 +95,6 @@ class ShoppingListServiceTest {
     shoppingCategoryDTO.setElementList(Arrays.asList(shoppingElementDTO));
     listDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
     service.saveShoppingList(listDTO);
-    service.deleteShoppingList(listDTO);
+    service.deleteShoppingList(listDTO.getName());
   }
 }
