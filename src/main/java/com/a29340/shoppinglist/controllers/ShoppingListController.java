@@ -38,18 +38,19 @@ public class ShoppingListController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteShoppingList(@PathVariable Long id){
+    public ResponseEntity<Long> deleteShoppingList(@PathVariable Long id){
         if(service.deleteShoppingList(id)) {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(id);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/{id}/rename")
-    public ResponseEntity renameList(@PathVariable Long id, String newName) {
-        if(service.renameList(id, newName)) {
-            return ResponseEntity.ok().build();
+    public ResponseEntity<ShoppingListDTO> renameList(@PathVariable Long id, String newName) {
+        ShoppingListDTO renamedShoppingListDTO = service.renameList(id, newName);
+        if(renamedShoppingListDTO != null) {
+            return ResponseEntity.ok(renamedShoppingListDTO);
         } else {
             return ResponseEntity.notFound().build();
         }

@@ -111,15 +111,14 @@ public class ShoppingListService {
     return false;
   }
 
-  public boolean renameList(Long id, String newName) {
+  public ShoppingListDTO renameList(Long id, String newName) {
     Optional<ShoppingList> optionalShoppingList = listRepository.findById(id);
     if (optionalShoppingList.isPresent()) {
       ShoppingList shoppingList = optionalShoppingList.get();
       shoppingList.setName(newName);
-      listRepository.save(shoppingList);
-      return true;
+      return listWithCategory(listRepository.save(shoppingList));
     }
-    return false;
+    return null;
   }
 
   public ShoppingListDTO getShoppingListById(Long id) {
