@@ -1,5 +1,14 @@
 package com.a29340.shoppinglist.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import com.a29340.shoppinglist.dto.ShoppingCategoryDTO;
 import com.a29340.shoppinglist.dto.ShoppingElementDTO;
 import com.a29340.shoppinglist.dto.ShoppingListDTO;
@@ -9,15 +18,6 @@ import com.a29340.shoppinglist.model.ShoppingList;
 import com.a29340.shoppinglist.repository.ShoppingCategoryRepository;
 import com.a29340.shoppinglist.repository.ShoppingElementRepository;
 import com.a29340.shoppinglist.repository.ShoppingListRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ShoppingListService {
@@ -92,7 +92,7 @@ public class ShoppingListService {
     slDTO.setId(shoppingList.getId());
     slDTO.setName(shoppingList.getName());
     slDTO.setDescription(shoppingList.getDescription());
-    slDTO.setCategoryList(shoppingList.getCategoryList().stream().map( category -> {
+    slDTO.setCategoryList(shoppingList.getCategoryList().stream().map(category -> {
       ShoppingCategoryDTO ctDTO = new ShoppingCategoryDTO();
       ctDTO.setId(category.getId());
       ctDTO.setDescription(category.getDescription());
@@ -123,11 +123,6 @@ public class ShoppingListService {
 
   public ShoppingListDTO getShoppingListById(Long id) {
     Optional<ShoppingList> optionalShoppingList = listRepository.findById(id);
-    ShoppingListDTO shoppingListDTO = null;
-    if(optionalShoppingList.isPresent()){
-      ShoppingList shoppingList = optionalShoppingList.get();
-      shoppingListDTO = ShoppingListDTO.fromShoppingList(shoppingList);
-    }
-    return shoppingListDTO;
+    return optionalShoppingList.map(ShoppingListDTO::fromShoppingList).orElse(null);
   }
 }
