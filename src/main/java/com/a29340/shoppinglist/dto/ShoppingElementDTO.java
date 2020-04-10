@@ -7,9 +7,19 @@ import javax.persistence.Id;
 
 public class ShoppingElementDTO {
 
+  private Long id;
+
   private String name;
   private String description;
   private Integer quantity;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;
@@ -37,6 +47,7 @@ public class ShoppingElementDTO {
 
   public static ShoppingElementDTO fromShoppingElement(ShoppingElement se) {
     ShoppingElementDTO seDTO = new ShoppingElementDTO();
+    seDTO.setId(se.getId());
     seDTO.setName(se.getName());
     seDTO.setDescription(se.getDescription());
     seDTO.setQuantity(se.getQuantity());

@@ -1,6 +1,7 @@
 package com.a29340.shoppinglist.controllers;
 
 import com.a29340.shoppinglist.dto.ShoppingListDTO;
+import com.a29340.shoppinglist.model.ShoppingList;
 import com.a29340.shoppinglist.service.ShoppingListService;
 
 
@@ -27,18 +28,27 @@ public class ShoppingListController {
         return service.getAllShoppingLists();
     }
 
-    @DeleteMapping("/{listName}")
-    public ResponseEntity deleteShoppingList(@PathVariable String listName){
-        if(service.deleteShoppingList(listName)) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ShoppingListDTO> getShoppingList(@PathVariable Long id){
+        ShoppingListDTO shoppingListById = service.getShoppingListById(id);
+        if(shoppingListById != null) {
+            return ResponseEntity.ok(shoppingListById);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteShoppingList(@PathVariable Long id){
+        if(service.deleteShoppingList(id)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/{listName}/rename")
-    public ResponseEntity renameList(@PathVariable String listName, String newName) {
-        if(service.renameList(listName, newName)) {
+    @PostMapping("/{id}/rename")
+    public ResponseEntity renameList(@PathVariable Long id, String newName) {
+        if(service.renameList(id, newName)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();

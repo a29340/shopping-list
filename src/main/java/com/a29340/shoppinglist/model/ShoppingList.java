@@ -24,12 +24,17 @@ public class ShoppingList {
   private String name;
 
   private String description;
+
   public List<ShoppingCategory> getCategoryList() {
     return categoryList;
   }
 
   public void setCategoryList(List<ShoppingCategory> categoryList) {
     this.categoryList = categoryList;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public String getName() {

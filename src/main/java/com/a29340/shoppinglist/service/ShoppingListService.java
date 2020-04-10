@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,26 +83,52 @@ public class ShoppingListService {
   }
 
   public Collection<ShoppingListDTO> getAllShoppingLists() {
-    return listRepository.findAll().stream().map(ShoppingListDTO::fromShoppingList)
+    return listRepository.findAll().stream().map(this::listWithCategory)
         .collect(Collectors.toList());
   }
 
-  public Boolean deleteShoppingList(String receivedShoppingList) {
-    ShoppingList listToDelete = listRepository.findByName(receivedShoppingList);
-    if (listToDelete != null) {
-      listRepository.delete(listToDelete);
+  private ShoppingListDTO listWithCategory(ShoppingList shoppingList) {
+    ShoppingListDTO slDTO = new ShoppingListDTO();
+    slDTO.setId(shoppingList.getId());
+    slDTO.setName(shoppingList.getName());
+    slDTO.setDescription(shoppingList.getDescription());
+    slDTO.setCategoryList(shoppingList.getCategoryList().stream().map( category -> {
+      ShoppingCategoryDTO ctDTO = new ShoppingCategoryDTO();
+      ctDTO.setId(category.getId());
+      ctDTO.setDescription(category.getDescription());
+      ctDTO.setName(category.getName());
+      return ctDTO;
+    }).collect(Collectors.toList()));
+    return slDTO;
+  }
+
+  public Boolean deleteShoppingList(Long id) {
+    Optional<ShoppingList> optionalShoppingList = listRepository.findById(id);
+    if (optionalShoppingList.isPresent()) {
+      listRepository.delete(optionalShoppingList.get());
       return true;
     }
     return false;
   }
 
-  public boolean renameList(String listName, String newName) {
-    ShoppingList list = listRepository.findByName(listName);
-    if (list != null) {
-      list.setName(newName);
-      listRepository.save(list);
+  public boolean renameList(Long id, String newName) {
+    Optional<ShoppingList> optionalShoppingList = listRepository.findById(id);
+    if (optionalShoppingList.isPresent()) {
+      ShoppingList shoppingList = optionalShoppingList.get();
+      shoppingList.setName(newName);
+      listRepository.save(shoppingList);
       return true;
     }
     return false;
+  }
+
+  public ShoppingListDTO getShoppingListById(Long id) {
+    Optional<ShoppingList> optionalShoppingList = listRepository.findById(id);
+    ShoppingListDTO shoppingListDTO = null;
+    if(optionalShoppingList.isPresent()){
+      ShoppingList shoppingList = optionalShoppingList.get();
+      shoppingListDTO = ShoppingListDTO.fromShoppingList(shoppingList);
+    }
+    return shoppingListDTO;
   }
 }

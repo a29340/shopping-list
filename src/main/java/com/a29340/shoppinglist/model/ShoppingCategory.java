@@ -28,6 +28,10 @@ public class ShoppingCategory {
   @ManyToMany
   private List<ShoppingCategory> subcategoryList;
 
+  public Long getId() {
+    return id;
+  }
+
   public List<ShoppingElement> getElementList() {
     return elementList;
   }

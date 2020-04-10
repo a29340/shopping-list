@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 public class ShoppingListDTO {
     private List<ShoppingCategoryDTO> categoryList;
 
+    private Long id;
+
     private String name;
 
     private String description;
@@ -36,8 +38,17 @@ public class ShoppingListDTO {
         this.description = description;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public static ShoppingListDTO fromShoppingList(ShoppingList sl){
         ShoppingListDTO slDTO = new ShoppingListDTO();
+        slDTO.setId(sl.getId());
         slDTO.setName(sl.getName());
         slDTO.setDescription(sl.getDescription());
         slDTO.setCategoryList(sl.getCategoryList() != null ? sl.getCategoryList().stream()
