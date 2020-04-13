@@ -19,6 +19,8 @@ public class ShoppingElement {
 
   private Integer quantity;
 
+  private Boolean isChecked;
+
   public Long getId() {
     return id;
   }
@@ -45,5 +47,13 @@ public class ShoppingElement {
 
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
+  }
+
+  public Boolean getChecked() {
+    return isChecked;
+  }
+
+  public void setChecked(Boolean checked) {
+    isChecked = checked;
   }
 }

@@ -12,6 +12,18 @@ public class ShoppingElementDTO {
   private String name;
   private String description;
   private Integer quantity;
+  private Boolean isChecked;
+
+  public ShoppingElementDTO() {
+  }
+
+  public ShoppingElementDTO(Long id, String name, String description, Integer quantity, Boolean isChecked) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.quantity = quantity;
+    this.isChecked = isChecked;
+  }
 
   public Long getId() {
     return id;
@@ -45,12 +57,17 @@ public class ShoppingElementDTO {
     this.quantity = quantity;
   }
 
-  public static ShoppingElementDTO fromShoppingElement(ShoppingElement se) {
-    ShoppingElementDTO seDTO = new ShoppingElementDTO();
-    seDTO.setId(se.getId());
-    seDTO.setName(se.getName());
-    seDTO.setDescription(se.getDescription());
-    seDTO.setQuantity(se.getQuantity());
-    return seDTO;
+  public Boolean getChecked() {
+    return isChecked;
   }
+
+  public void setChecked(Boolean checked) {
+    isChecked = checked;
+  }
+
+
+
+
+
+
 }

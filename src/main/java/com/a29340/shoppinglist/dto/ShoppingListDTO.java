@@ -14,6 +14,16 @@ public class ShoppingListDTO {
 
     private String description;
 
+    public ShoppingListDTO() {
+    }
+
+    public ShoppingListDTO(List<ShoppingCategoryDTO> categoryList, Long id, String name, String description) {
+        this.categoryList = categoryList;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
     public List<ShoppingCategoryDTO> getCategoryList() {
         return categoryList;
     }
@@ -46,13 +56,5 @@ public class ShoppingListDTO {
         this.id = id;
     }
 
-    public static ShoppingListDTO fromShoppingList(ShoppingList sl){
-        ShoppingListDTO slDTO = new ShoppingListDTO();
-        slDTO.setId(sl.getId());
-        slDTO.setName(sl.getName());
-        slDTO.setDescription(sl.getDescription());
-        slDTO.setCategoryList(sl.getCategoryList() != null ? sl.getCategoryList().stream()
-                .map(ShoppingCategoryDTO::fromShoppingCategory).collect(Collectors.toList()) : null);
-        return slDTO;
-    }
+
 }

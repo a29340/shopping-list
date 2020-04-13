@@ -31,6 +31,9 @@ public class ShoppingListService {
   @Autowired
   ShoppingElementRepository elementRepository;
 
+  @Autowired
+  ShoppingCategoryService categoryService;
+
   public ShoppingListDTO saveShoppingList(ShoppingListDTO shoppingListDTO) {
     ShoppingList sl = listRepository.findByName(shoppingListDTO.getName());
     if (sl != null) {
@@ -42,7 +45,7 @@ public class ShoppingListService {
     }
     sl.setCategoryList(processCategoryList(shoppingListDTO.getCategoryList()));
 
-    return ShoppingListDTO.fromShoppingList(listRepository.save(sl));
+    return fromShoppingList(listRepository.save(sl));
   }
 
   private List<ShoppingCategory> processCategoryList(List<ShoppingCategoryDTO> categoryListDTO) {
@@ -123,6 +126,16 @@ public class ShoppingListService {
 
   public ShoppingListDTO getShoppingListById(Long id) {
     Optional<ShoppingList> optionalShoppingList = listRepository.findById(id);
-    return optionalShoppingList.map(ShoppingListDTO::fromShoppingList).orElse(null);
+    return optionalShoppingList.map(this::fromShoppingList).orElse(null);
+  }
+
+  public ShoppingListDTO fromShoppingList(ShoppingList sl){
+    ShoppingListDTO slDTO = new ShoppingListDTO();
+    slDTO.setId(sl.getId());
+    slDTO.setName(sl.getName());
+    slDTO.setDescription(sl.getDescription());
+    slDTO.setCategoryList(sl.getCategoryList() != null ? sl.getCategoryList().stream()
+        .map(categoryService::fromShoppingCategory).collect(Collectors.toList()) : null);
+    return slDTO;
   }
 }

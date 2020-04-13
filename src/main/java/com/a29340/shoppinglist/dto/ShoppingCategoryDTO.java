@@ -1,13 +1,6 @@
 package com.a29340.shoppinglist.dto;
 
-import com.a29340.shoppinglist.model.ShoppingCategory;
-import com.a29340.shoppinglist.model.ShoppingElement;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ShoppingCategoryDTO {
 
@@ -20,6 +13,17 @@ public class ShoppingCategoryDTO {
   private String name;
 
   private String description;
+
+  public ShoppingCategoryDTO() {
+  }
+
+  public ShoppingCategoryDTO(Long id, List<ShoppingElementDTO> elementList, List<ShoppingCategoryDTO> subcategoryList, String name, String description) {
+    this.id = id;
+    this.elementList = elementList;
+    this.subcategoryList = subcategoryList;
+    this.name = name;
+    this.description = description;
+  }
 
   public Long getId() {
     return id;
@@ -61,16 +65,7 @@ public class ShoppingCategoryDTO {
     this.description = description;
   }
 
-  public static ShoppingCategoryDTO fromShoppingCategory(ShoppingCategory sc) {
-    ShoppingCategoryDTO scDTO = new ShoppingCategoryDTO();
-    scDTO.setId(sc.getId());
-    scDTO.setName(sc.getName());
-    scDTO.setDescription(sc.getDescription());
-    scDTO.setElementList(sc.getElementList() != null ? sc.getElementList().stream()
-            .map(ShoppingElementDTO::fromShoppingElement).collect(Collectors.toList()) : null);
-    scDTO.setSubcategoryList(sc.getSubcategoryList() != null ? sc.getSubcategoryList().stream()
-            .map(ShoppingCategoryDTO::fromShoppingCategory).collect(Collectors.toList()) : null);
-    return scDTO;
-  }
+
+
 
 }
