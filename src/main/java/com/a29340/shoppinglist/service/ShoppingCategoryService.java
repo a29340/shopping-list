@@ -24,6 +24,10 @@ public class ShoppingCategoryService {
   @Autowired
   private ShoppingElementService elementService;
 
+  public ShoppingCategoryDTO getShoppingCategoryByName(String name){
+    return fromShoppingCategory(categoryRepository.findByName(name));
+  }
+
   public ShoppingCategoryDTO getShoppingCategoryById(Long id) {
     Optional<ShoppingCategory> optionalShoppingCategory = categoryRepository.findById(id);
     return optionalShoppingCategory.map(this::fromShoppingCategory).orElse(null);
