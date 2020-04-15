@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.a29340.shoppinglist.dto.ShoppingCategoryDTO;
 import com.a29340.shoppinglist.dto.ShoppingElementDTO;
@@ -22,7 +23,11 @@ public class ShoppingCategoryServiceTest {
   @Test
   @Transactional
   void should_save_new_shopping_category() {
-    service.saveShoppingCategory(getShoppingCategoryWithSuffix(" 1"));
+    ShoppingCategoryDTO shoppingCategoryWithSuffix = getShoppingCategoryWithSuffix(" 1");
+    service.saveShoppingCategory(shoppingCategoryWithSuffix);
+    ShoppingCategoryDTO shoppingCategoryByName = service.getShoppingCategoryByName(shoppingCategoryWithSuffix.getName());
+    Assert.notNull(shoppingCategoryByName, "Shopping category found null");
+    Assert.notNull(shoppingCategoryByName.getId(), "Shopping category id found null");
   }
 
   private ShoppingCategoryDTO getShoppingCategoryWithSuffix(String suffix) {
