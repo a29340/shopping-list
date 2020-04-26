@@ -1,14 +1,13 @@
 package com.a29340.shoppinglist.service;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.junit.MockitoJUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
-import java.util.Arrays;
+import java.io.IOException;
+import java.util.Collections;
 
 import com.a29340.shoppinglist.dto.ShoppingCategoryDTO;
 import com.a29340.shoppinglist.dto.ShoppingElementDTO;
@@ -22,7 +21,7 @@ class ShoppingListServiceTest {
 
   @Test
   @Transactional
-  void should_save_new_shopping_list() {
+  void should_save_new_shopping_list() throws IOException {
 
     ShoppingListDTO listDTO = new ShoppingListDTO();
     listDTO.setName("TestList");
@@ -34,14 +33,14 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setName("TestElement");
     shoppingElementDTO.setDescription("TestElement description");
     shoppingElementDTO.setQuantity(5);
-    shoppingCategoryDTO.setElementList(Arrays.asList(shoppingElementDTO));
-    listDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
+    shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
+    listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
     service.saveShoppingList(listDTO);
   }
 
   @Test
   @Transactional
-  void should_save_new_shopping_list_with_null_values() {
+  void should_save_new_shopping_list_with_null_values() throws IOException {
     ShoppingListDTO listDTO = new ShoppingListDTO();
     listDTO.setName("TestList");
     listDTO.setDescription("TestList description");
@@ -50,14 +49,14 @@ class ShoppingListServiceTest {
     ShoppingElementDTO shoppingElementDTO = new ShoppingElementDTO();
     shoppingElementDTO.setName("TestElement");
     shoppingElementDTO.setQuantity(5);
-    shoppingCategoryDTO.setElementList(Arrays.asList(shoppingElementDTO));
-    listDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
+    shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
+    listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
     service.saveShoppingList(listDTO);
   }
 
   @Test
   @Transactional
-  void should_save_two_shopping_list_with_shared_items() {
+  void should_save_two_shopping_list_with_shared_items() throws IOException {
 
     ShoppingListDTO listDTO = new ShoppingListDTO();
     listDTO.setName("TestList");
@@ -69,19 +68,19 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setName("TestElement");
     shoppingElementDTO.setDescription("TestElement description");
     shoppingElementDTO.setQuantity(5);
-    shoppingCategoryDTO.setElementList(Arrays.asList(shoppingElementDTO));
-    listDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
+    shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
+    listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
     service.saveShoppingList(listDTO);
 
     ShoppingListDTO anotherListDTO = new ShoppingListDTO();
     anotherListDTO.setName("TestList2");
-    anotherListDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
+    anotherListDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
     service.saveShoppingList(anotherListDTO);
   }
 
   @Test
   @Transactional
-  void should_delete_list(){
+  void should_delete_list() throws IOException {
     ShoppingListDTO listDTO = new ShoppingListDTO();
     listDTO.setName("TestList");
     listDTO.setDescription("TestList description");
@@ -92,8 +91,8 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setName("TestElement");
     shoppingElementDTO.setDescription("TestElement description");
     shoppingElementDTO.setQuantity(5);
-    shoppingCategoryDTO.setElementList(Arrays.asList(shoppingElementDTO));
-    listDTO.setCategoryList(Arrays.asList(shoppingCategoryDTO));
+    shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
+    listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
     ShoppingListDTO savedDTO = service.saveShoppingList(listDTO);
     service.deleteShoppingList(savedDTO.getId());
   }

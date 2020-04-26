@@ -16,7 +16,6 @@ public class ShoppingCategory {
   @GeneratedValue
   private Long id;
 
-  @Column(unique = true)
   private String name;
 
   private String description;

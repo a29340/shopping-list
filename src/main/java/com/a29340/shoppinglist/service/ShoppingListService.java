@@ -3,6 +3,7 @@ package com.a29340.shoppinglist.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,55 +35,77 @@ public class ShoppingListService {
   @Autowired
   ShoppingCategoryService categoryService;
 
-  public ShoppingListDTO saveShoppingList(ShoppingListDTO shoppingListDTO) {
-    ShoppingList sl = listRepository.findByName(shoppingListDTO.getName());
-    if (sl != null) {
-      sl.setDescription(shoppingListDTO.getDescription());
+  public ShoppingListDTO saveShoppingList(ShoppingListDTO shoppingListDTO) throws IOException {
+    ShoppingList shoppingList;
+    if (shoppingListDTO.getId() != null) {
+      Optional<ShoppingList> sl = listRepository.findById(shoppingListDTO.getId());
+      if (sl.isPresent()) {
+        shoppingList = sl.get();
+        shoppingList.setDescription(shoppingListDTO.getDescription());
+      } else {
+        throw new IOException(String.format("List not found in database with id: %s", shoppingListDTO.getId()));
+      }
     } else {
-      sl = new ShoppingList();
-      sl.setName(shoppingListDTO.getName());
-      sl.setDescription(shoppingListDTO.getDescription());
+      shoppingList = new ShoppingList();
     }
-    sl.setCategoryList(processCategoryList(shoppingListDTO.getCategoryList()));
-
-    return fromShoppingList(listRepository.save(sl));
+    shoppingList.setName(shoppingListDTO.getName());
+    shoppingList.setDescription(shoppingListDTO.getDescription());
+    List<ShoppingCategoryDTO> categoryList = shoppingListDTO.getCategoryList();
+    if(categoryList!=null){
+      shoppingList.setCategoryList(processCategoryList(categoryList));
+    }
+    return fromShoppingList(listRepository.save(shoppingList));
   }
 
-  private List<ShoppingCategory> processCategoryList(List<ShoppingCategoryDTO> categoryListDTO) {
-    if (categoryListDTO != null) {
-      List<ShoppingCategory> shoppingCategories = new ArrayList<>();
-      categoryListDTO.forEach(categoryDTO -> {
-        ShoppingCategory category = categoryRepository.findByName(categoryDTO.getName());
-        if (category == null) {
-          category = new ShoppingCategory();
-          category.setName(categoryDTO.getName());
+  private List<ShoppingCategory> processCategoryList(List<ShoppingCategoryDTO> categoryListDTO) throws IOException {
+    List<ShoppingCategory> shoppingCategories = new ArrayList<>();
+    for (ShoppingCategoryDTO categoryDTO : categoryListDTO) {
+      ShoppingCategory category;
+      if (categoryDTO.getId() != null) {
+        Optional<ShoppingCategory> categoryOptional = categoryRepository.findById(categoryDTO.getId());
+        if (categoryOptional.isPresent()) {
+          category = categoryOptional.get();
+        } else {
+          throw new IOException(String.format("Category not found in database with id: %s", categoryDTO.getId()));
         }
-        category.setDescription(categoryDTO.getDescription());
-        category.setSubcategoryList(processCategoryList(categoryDTO.getSubcategoryList()));
-        category.setElementList(processElementList(categoryDTO.getElementList()));
-        shoppingCategories.add(categoryRepository.save(category));
-      });
-      return shoppingCategories;
+      } else {
+        category = new ShoppingCategory();
+      }
+      category.setName(categoryDTO.getName());
+      category.setDescription(categoryDTO.getDescription());
+      List<ShoppingCategoryDTO> subcategoryList = categoryDTO.getSubcategoryList();
+      if(subcategoryList!=null){
+        category.setSubcategoryList(processCategoryList(subcategoryList));
+      }
+      List<ShoppingElementDTO> elementList = categoryDTO.getElementList();
+      if (elementList != null) {
+        category.setElementList(processElementList(elementList));
+      }
+      shoppingCategories.add(categoryRepository.save(category));
     }
-    return null;
+    return shoppingCategories;
   }
 
-  private List<ShoppingElement> processElementList(List<ShoppingElementDTO> elementList) {
-    if (elementList != null) {
-      List<ShoppingElement> shoppingElements = new ArrayList<>();
-      elementList.forEach(elementDTO -> {
-        ShoppingElement shoppingElement = elementRepository.findByName(elementDTO.getName());
-        if (shoppingElement == null) {
-          shoppingElement = new ShoppingElement();
-          shoppingElement.setName(elementDTO.getName());
+  private List<ShoppingElement> processElementList(List<ShoppingElementDTO> elementList) throws IOException {
+    List<ShoppingElement> shoppingElements = new ArrayList<>();
+    for (ShoppingElementDTO elementDTO : elementList) {
+      ShoppingElement shoppingElement;
+      if (elementDTO.getId() != null) {
+        Optional<ShoppingElement> optionalShoppingElement = elementRepository.findById(elementDTO.getId());
+        if (optionalShoppingElement.isPresent()) {
+          shoppingElement = optionalShoppingElement.get();
+        } else {
+          throw new IOException(String.format("Category not found in database with id: %s", elementDTO.getId()));
         }
-        shoppingElement.setDescription(elementDTO.getDescription());
-        shoppingElement.setQuantity(elementDTO.getQuantity());
-        shoppingElements.add(elementRepository.save(shoppingElement));
-      });
-      return shoppingElements;
+      } else {
+        shoppingElement = new ShoppingElement();
+        shoppingElement.setName(elementDTO.getName());
+      }
+      shoppingElement.setDescription(elementDTO.getDescription());
+      shoppingElement.setQuantity(elementDTO.getQuantity());
+      shoppingElements.add(elementRepository.save(shoppingElement));
     }
-    return null;
+    return shoppingElements;
   }
 
   public Collection<ShoppingListDTO> getAllShoppingLists() {
@@ -129,7 +152,7 @@ public class ShoppingListService {
     return optionalShoppingList.map(this::fromShoppingList).orElse(null);
   }
 
-  public ShoppingListDTO fromShoppingList(ShoppingList sl){
+  public ShoppingListDTO fromShoppingList(ShoppingList sl) {
     ShoppingListDTO slDTO = new ShoppingListDTO();
     slDTO.setId(sl.getId());
     slDTO.setName(sl.getName());
