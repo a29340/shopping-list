@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .csrf()
           .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
+    http.headers().frameOptions().disable();
   }
 
   CorsConfigurationSource corsConfigurationSource() {

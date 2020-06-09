@@ -22,11 +22,11 @@ public class ShoppingCategory {
 
   private String description;
 
-  @OneToMany(orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.REMOVE)
   private List<ShoppingElement> elementList;
 
 
-  @OneToMany(orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.REMOVE)
   private List<ShoppingCategory> subcategoryList;
 
   public Long getId() {
