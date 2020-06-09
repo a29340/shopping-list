@@ -2,11 +2,13 @@ package com.a29340.shoppinglist.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -20,11 +22,11 @@ public class ShoppingCategory {
 
   private String description;
 
-  @ManyToMany
+  @OneToMany(orphanRemoval = true)
   private List<ShoppingElement> elementList;
 
 
-  @ManyToMany
+  @OneToMany(orphanRemoval = true)
   private List<ShoppingCategory> subcategoryList;
 
   public Long getId() {
