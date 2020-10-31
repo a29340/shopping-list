@@ -1,0 +1,25 @@
+logging:
+    level:
+        web: DEBUG
+auth0:
+    audience: http://localhost:8081/
+server:
+    port: 8081
+spring:
+    datasource:
+        driver-class-name: org.mariadb.jdbc.Driver
+        password: 46le54si
+        url: jdbc:mariadb://localhost:3306/list
+        username: root
+    h2:
+        console:
+            enabled: true
+    jpa:
+        database: mysql
+        hibernate:
+            ddl-auto: create
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: https://dev-6iexu8k3.us.auth0.com/

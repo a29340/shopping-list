@@ -13,7 +13,7 @@ import com.a29340.shoppinglist.dto.ShoppingCategoryDTO;
 import com.a29340.shoppinglist.service.ShoppingCategoryService;
 
 @RestController
-@RequestMapping("/api/shoppingcategory")
+@RequestMapping("/api/shopping/category")
 public class ShoppingCategoryController {
 
   @Autowired

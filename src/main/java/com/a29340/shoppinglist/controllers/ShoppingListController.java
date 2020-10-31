@@ -15,7 +15,7 @@ import java.util.Collection;
 import javax.xml.ws.Response;
 
 @RestController
-@RequestMapping("/api/shoppinglist")
+@RequestMapping("/api/shopping/list")
 public class ShoppingListController {
 
   @Autowired
