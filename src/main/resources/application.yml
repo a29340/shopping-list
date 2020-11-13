@@ -8,16 +8,16 @@ server:
 spring:
     datasource:
         driver-class-name: org.mariadb.jdbc.Driver
-        password: 46le54si
-        url: jdbc:mariadb://localhost:3306/list
+        url: jdbc:mariadb://localhost:49155/list
         username: root
+        password: 46le54si
     h2:
         console:
             enabled: true
     jpa:
         database: mysql
         hibernate:
-            ddl-auto: create
+            ddl-auto: update
     security:
         oauth2:
             resourceserver:

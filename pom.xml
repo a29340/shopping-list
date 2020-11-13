@@ -87,6 +87,10 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
+                        <configuration>
+                            <excludeDevtools>true</excludeDevtools>
+                            <finalName>shopping-list</finalName>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

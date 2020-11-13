@@ -12,7 +12,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .mvcMatchers("/api/shopping/**").authenticated()
+        .antMatchers("/**").hasAuthority("SCOPE_access")
         .and().cors()
         .and().oauth2ResourceServer().jwt();
   }
