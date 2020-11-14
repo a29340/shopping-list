@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:alpine
+FROM adoptopenjdk/openjdk11
 
 ARG EXEC_FILE='target/shopping-list.jar'
 COPY ${EXEC_FILE} app.jar
