@@ -29,4 +29,4 @@ jobs:
         run: sudo docker container rm shopping-list-be
 
       - name: Start new container
-        run: sudo docker run --link shopping-mariadb:shopping-db --name shopping-list-be -v shopping-list-config:/opt/shopping -P --detach anesi/shopping-list-be:latest
+        run: sudo docker run --link shopping-mariadb:shopping-db --name shopping-list-be -v shopping-list-config:/opt/shopping --detach anesi/shopping-list-be:latest
