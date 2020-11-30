@@ -21,12 +21,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Setup Maven
-        uses: stCarolas/setup-maven@v1
-
-      - name: Build And Test
-        run: mvn clean install
+      
+      - name: Maven CLI For GitHub Actions
+        # You may pin to the exact commit or the version.
+        # uses: xlui/action-maven-cli@249896efd56e7c2dba0cb51d120422f2ec85c5b7
+        uses: xlui/action-maven-cli@2.0
+        with:
+        # Maven lifecycles
+          lifecycle: clean install
 
       - name: Docker Login
         uses: docker/login-action@v1.6.0
