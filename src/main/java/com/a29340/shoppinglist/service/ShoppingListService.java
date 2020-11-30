@@ -16,9 +16,11 @@ import com.a29340.shoppinglist.dto.ShoppingListDTO;
 import com.a29340.shoppinglist.model.ShoppingCategory;
 import com.a29340.shoppinglist.model.ShoppingElement;
 import com.a29340.shoppinglist.model.ShoppingList;
+import com.a29340.shoppinglist.model.User;
 import com.a29340.shoppinglist.repository.ShoppingCategoryRepository;
 import com.a29340.shoppinglist.repository.ShoppingElementRepository;
 import com.a29340.shoppinglist.repository.ShoppingListRepository;
+import com.a29340.shoppinglist.repository.UserRepository;
 
 @Service
 public class ShoppingListService {
@@ -35,7 +37,7 @@ public class ShoppingListService {
   @Autowired
   ShoppingCategoryService categoryService;
 
-  public ShoppingListDTO saveShoppingList(ShoppingListDTO shoppingListDTO) throws IOException {
+  public ShoppingListDTO saveShoppingList(ShoppingListDTO shoppingListDTO, User user) throws IOException {
     ShoppingList shoppingList;
     if (shoppingListDTO.getId() != null) {
       Optional<ShoppingList> sl = listRepository.findById(shoppingListDTO.getId());
@@ -54,6 +56,7 @@ public class ShoppingListService {
     if(categoryList!=null){
       shoppingList.setCategoryList(processCategoryList(categoryList));
     }
+    user.getShoppingLists().add(shoppingList);
     return fromShoppingList(listRepository.save(shoppingList));
   }
 

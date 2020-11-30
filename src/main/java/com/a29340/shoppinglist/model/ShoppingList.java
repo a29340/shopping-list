@@ -1,7 +1,9 @@
 package com.a29340.shoppinglist.model;
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,10 +23,16 @@ public class ShoppingList {
   @OneToMany(cascade = CascadeType.REMOVE)
   private List<ShoppingCategory> categoryList;
 
-  @Column(unique = true)
   private String name;
 
   private String description;
+
+  @ManyToMany(mappedBy = "shoppingLists")
+  private Set<User> users;
+
+  public ShoppingList() {
+    setUsers(new HashSet<>());
+  }
 
   public List<ShoppingCategory> getCategoryList() {
     return categoryList;
@@ -55,4 +63,11 @@ public class ShoppingList {
   }
 
 
+  public Set<User> getUsers() {
+    return users;
+  }
+
+  public void setUsers(Set<User> users) {
+    this.users = users;
+  }
 }

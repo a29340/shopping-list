@@ -1,7 +1,8 @@
 package com.a29340.shoppinglist.controllers;
 
 import com.a29340.shoppinglist.dto.ShoppingListDTO;
-import com.a29340.shoppinglist.model.ShoppingList;
+import com.a29340.shoppinglist.model.User;
+import com.a29340.shoppinglist.repository.UserRepository;
 import com.a29340.shoppinglist.service.ShoppingListService;
 
 
@@ -10,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Collection;
-
-import javax.xml.ws.Response;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/shopping/list")
@@ -21,19 +20,22 @@ public class ShoppingListController {
   @Autowired
   private ShoppingListService service;
 
+  @Autowired
+  private UserRepository userRepository;
+
   @PostMapping
-  public ResponseEntity<ShoppingListDTO> createShoppingList(@RequestBody ShoppingListDTO receivedShoppingList) {
+  public ResponseEntity<ShoppingListDTO> createShoppingList(@RequestBody ShoppingListDTO receivedShoppingList,
+                                                            Principal principal) {
     try {
-      return ResponseEntity.ok(service.saveShoppingList(receivedShoppingList));
+      User user = userRepository.findByName(principal.getName())
+          .orElse(new User(principal.getName()));
+      return ResponseEntity.ok(service.saveShoppingList(receivedShoppingList, user));
     } catch (IOException e) {
       return ResponseEntity.badRequest().body(receivedShoppingList);
     }
   }
 
-  @GetMapping
-  public Collection<ShoppingListDTO> getAllShoppingLists() {
-    return service.getAllShoppingLists();
-  }
+
 
   @GetMapping("/{id}")
   public ResponseEntity<ShoppingListDTO> getShoppingList(@PathVariable Long id) {

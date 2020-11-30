@@ -35,7 +35,7 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setQuantity(5);
     shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
     listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    service.saveShoppingList(listDTO);
+    service.saveShoppingList(listDTO, null);
   }
 
   @Test
@@ -51,7 +51,7 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setQuantity(5);
     shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
     listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    service.saveShoppingList(listDTO);
+    service.saveShoppingList(listDTO, null);
   }
 
   @Test
@@ -70,12 +70,12 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setQuantity(5);
     shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
     listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    service.saveShoppingList(listDTO);
+    service.saveShoppingList(listDTO, null);
 
     ShoppingListDTO anotherListDTO = new ShoppingListDTO();
     anotherListDTO.setName("TestList2");
     anotherListDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    service.saveShoppingList(anotherListDTO);
+    service.saveShoppingList(anotherListDTO, null);
   }
 
   @Test
@@ -93,7 +93,7 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setQuantity(5);
     shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
     listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    ShoppingListDTO savedDTO = service.saveShoppingList(listDTO);
+    ShoppingListDTO savedDTO = service.saveShoppingList(listDTO, null);
     service.deleteShoppingList(savedDTO.getId());
   }
 
