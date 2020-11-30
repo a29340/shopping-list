@@ -12,6 +12,7 @@ import java.util.Collections;
 import com.a29340.shoppinglist.dto.ShoppingCategoryDTO;
 import com.a29340.shoppinglist.dto.ShoppingElementDTO;
 import com.a29340.shoppinglist.dto.ShoppingListDTO;
+import com.a29340.shoppinglist.model.User;
 
 @SpringBootTest
 class ShoppingListServiceTest {
@@ -35,7 +36,7 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setQuantity(5);
     shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
     listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    service.saveShoppingList(listDTO, null);
+    service.saveShoppingList(listDTO, new User("test_user"));
   }
 
   @Test
@@ -51,7 +52,7 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setQuantity(5);
     shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
     listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    service.saveShoppingList(listDTO, null);
+    service.saveShoppingList(listDTO, new User("test_user"));
   }
 
   @Test
@@ -70,12 +71,13 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setQuantity(5);
     shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
     listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    service.saveShoppingList(listDTO, null);
+    User testUser = new User("test_user");
+    service.saveShoppingList(listDTO, testUser);
 
     ShoppingListDTO anotherListDTO = new ShoppingListDTO();
     anotherListDTO.setName("TestList2");
     anotherListDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    service.saveShoppingList(anotherListDTO, null);
+    service.saveShoppingList(anotherListDTO, testUser);
   }
 
   @Test
@@ -93,7 +95,7 @@ class ShoppingListServiceTest {
     shoppingElementDTO.setQuantity(5);
     shoppingCategoryDTO.setElementList(Collections.singletonList(shoppingElementDTO));
     listDTO.setCategoryList(Collections.singletonList(shoppingCategoryDTO));
-    ShoppingListDTO savedDTO = service.saveShoppingList(listDTO, null);
+    ShoppingListDTO savedDTO = service.saveShoppingList(listDTO, new User("test_user"));
     service.deleteShoppingList(savedDTO.getId());
   }
 
